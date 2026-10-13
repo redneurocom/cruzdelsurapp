@@ -14,9 +14,8 @@ aws-backend/
 │   ├── destinos.json                     # 10 destinos (Arequipa, Cusco, Trujillo…)
 │   ├── usuarios.json                     # 3 operarios de prueba (contraseña cifrada)
 │   └── equipajes-ejemplo.json            # 4 equipajes de ejemplo (opcional)
-├── scripts/
-│   └── crear_usuario.py                  # genera un usuario nuevo con su contraseña cifrada
-└── desplegar-learner-lab.sh              # crea o actualiza todo con la AWS CLI
+└── scripts/
+    └── crear_usuario.py                  # genera un usuario nuevo con su contraseña cifrada
 ```
 
 ---
@@ -79,16 +78,17 @@ python3 scripts/crear_usuario.py OP-5001 "Ana Torres" OPERARIO_COUNTER "Terminal
 aws dynamodb put-item --region us-east-1 --table-name cds-usuarios --item file://usuario.json
 ```
 
-## 5. Volver a desplegar con un comando (opcional)
+## 5. Creación de los servicios
 
-En la terminal del laboratorio, o en CloudShell, con credenciales vigentes y dentro de esta carpeta:
+Las tablas, las funciones Lambda y las APIs se crearon **manualmente desde la consola de AWS** con los nombres y la configuración de las secciones 1 a 3. El código de cada Lambda se copia desde `lambdas/<función>/lambda_function.py`, y las variables de entorno se configuran en la pestaña *Configuración* de cada función.
+
+Para cargar los datos iniciales desde CloudShell (dentro de esta carpeta):
 
 ```bash
-echo "TU_CLAVE_SECRETA" > .token_secret   # la misma clave que usas en TOKEN_SECRET
-bash desplegar-learner-lab.sh             # agrega --ejemplos para cargar 4 equipajes de prueba
+aws dynamodb batch-write-item --region us-east-1 --request-items file://datos/destinos.json
+aws dynamodb batch-write-item --region us-east-1 --request-items file://datos/usuarios.json
+aws dynamodb batch-write-item --region us-east-1 --request-items file://datos/equipajes-ejemplo.json   # opcional
 ```
-
-Reutiliza lo que ya exista: tablas, funciones, APIs y rutas. Actualiza el código de las Lambdas y al final muestra las 3 URLs.
 
 ## 6. Probar
 
