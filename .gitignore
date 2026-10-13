@@ -11,3 +11,7 @@ captures/
 # Archivos del sistema
 .DS_Store
 Thumbs.db
+
+# Kotlin y Python
+.kotlin/
+__pycache__/
