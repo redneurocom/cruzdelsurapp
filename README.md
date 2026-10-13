@@ -83,6 +83,8 @@ Las capturas y la descripción de cada pantalla se encuentran en [docs/prototipo
 
 ## Documentación
 
+- [Informe del trabajo final (Word)](docs/TrabajoFinal_IS276_CruzDelSur.docx)
+- [Presentación del trabajo final (PowerPoint)](docs/Presentacion_IS276_CruzDelSur.pptx)
 - [Informe del trabajo parcial](docs/informe-trabajo-parcial.md)
 - [Prototipo y capturas](docs/prototipo.md)
 - [Seguimiento del proyecto](docs/seguimiento.md)
