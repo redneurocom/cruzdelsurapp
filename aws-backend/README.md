@@ -10,12 +10,10 @@ aws-backend/
 │   ├── funEquipajes/lambda_function.py   # registrar, listar, ver, editar y eliminar equipajes
 │   ├── funDestinos/lambda_function.py    # catálogo de destinos
 │   └── funAuth/lambda_function.py        # inicio de sesión de operarios
-├── datos/
-│   ├── destinos.json                     # 10 destinos (Arequipa, Cusco, Trujillo…)
-│   ├── usuarios.json                     # 3 operarios de prueba (contraseña cifrada)
-│   └── equipajes-ejemplo.json            # 4 equipajes de ejemplo (opcional)
-└── scripts/
-    └── crear_usuario.py                  # genera un usuario nuevo con su contraseña cifrada
+└── datos/
+    ├── destinos.json                     # 10 destinos (Arequipa, Cusco, Trujillo…)
+    ├── usuarios.json                     # 3 operarios de prueba (contraseña cifrada)
+    └── equipajes-ejemplo.json            # 4 equipajes de ejemplo (opcional)
 ```
 
 ---
@@ -71,12 +69,7 @@ Todas las respuestas tienen la forma `{ "success": true|false, "data": ..., "mes
 | `OP-1020` | Julia Salazar | Operario de counter | `CruzDelSur2026` |
 | `SP-0001` | Supervisor Operativo | Supervisor | `CruzDelSur2026` |
 
-Para agregar un usuario:
-
-```bash
-python3 scripts/crear_usuario.py OP-5001 "Ana Torres" OPERARIO_COUNTER "Terminal Javier Prado - Lima" "MiClave2026" > usuario.json
-aws dynamodb put-item --region us-east-1 --table-name cds-usuarios --item file://usuario.json
-```
+Para agregar un usuario se crea manualmente en la consola de DynamoDB (tabla `cds-usuarios` → *Explorar elementos* → *Crear elemento*) con los atributos `codigo`, `nombre`, `rol`, `terminal`, `activo` (`true`) y `passwordHash`. Para que el usuario nuevo tenga la contraseña `CruzDelSur2026`, se copia el `passwordHash` de uno de los usuarios de prueba.
 
 ## 5. Creación de los servicios
 
