@@ -20,11 +20,11 @@ aws dynamodb batch-write-item --region us-east-1 --request-items file://aws-back
 
 ## Crear un usuario nuevo
 
-```bash
-cd aws-backend
-python3 scripts/crear_usuario.py OP-5001 "Ana Torres" OPERARIO_COUNTER "Terminal Javier Prado - Lima" "MiClave2026" > usuario.json
-aws dynamodb put-item --region us-east-1 --table-name cds-usuarios --item file://usuario.json
-```
+Los usuarios se crean manualmente en la consola de AWS:
+
+1. Abrir **DynamoDB → Tablas → `cds-usuarios` → Explorar elementos → Crear elemento**.
+2. Completar los atributos `codigo` (por ejemplo `OP-5001`), `nombre`, `rol` (`OPERARIO_BODEGA`, `OPERARIO_COUNTER` o `SUPERVISOR`), `terminal` y `activo` (Boolean `true`).
+3. En `passwordHash`, copiar el valor de uno de los usuarios de prueba. Así el usuario nuevo inicia sesión con la contraseña `CruzDelSur2026`.
 
 ## Probar el inicio de sesión
 
