@@ -5,5 +5,5 @@ import com.grupo6.cruzdelsurapp.domain.repository.EquipajeRepository
 import javax.inject.Inject
 
 class GetEquipajesUseCase @Inject constructor(private val repository: EquipajeRepository) {
-    suspend operator fun invoke(): Result<List<Equipaje>> = repository.getEquipajes()
+    suspend operator fun invoke(): List<Equipaje> = repository.getEquipajes()
 }

@@ -12,25 +12,25 @@ class EquipajeRepositoryImpl @Inject constructor(
     private val apiEquipaje: EquipajeApiService,
     private val apiDestino: DestinoApiService
 ) : EquipajeRepository{
-    override suspend fun getEquipajes(): Result<List<Equipaje>> = runCatching {
+    override suspend fun getEquipajes(): List<Equipaje> {
         val response = apiEquipaje.getEquipajes()
         if(response.success){
-            response.data.items.map { it.toDomain() }
+            return response.data.items.map { it.toDomain() }
         }else{
             throw Exception("Error en la respuesta del servidor")
         }
     }
 
-    override suspend fun getEquipajeById(id: String): Result<Equipaje> = runCatching {
+    override suspend fun getEquipajeById(id: String): Equipaje {
         val response = apiEquipaje.getEquipajeById(id)
         if(response.success && response.data != null){
-            response.data.toDomain()
+            return response.data.toDomain()
         }else{
             throw Exception("No se pudo obtener el detalle del equipaje")
         }
     }
 
-    override suspend fun registrarEquipaje(equipaje: Equipaje): Result<Unit> = runCatching {
+    override suspend fun registrarEquipaje(equipaje: Equipaje) {
         val dto = RegistrarEquipajeDto(
             pasajero = equipaje.pasajero,
             boleto = equipaje.boleto,
@@ -41,7 +41,7 @@ class EquipajeRepositoryImpl @Inject constructor(
         apiEquipaje.registrarEquipaje(dto)
     }
 
-    override suspend fun actualizarEquipaje(id: String, equipaje: Equipaje): Result<Unit> = runCatching {
+    override suspend fun actualizarEquipaje(id: String, equipaje: Equipaje) {
         val dto = RegistrarEquipajeDto(
             pasajero = equipaje.pasajero,
             boleto = equipaje.boleto,
@@ -52,17 +52,17 @@ class EquipajeRepositoryImpl @Inject constructor(
         apiEquipaje.actualizarEquipaje(id, dto)
     }
 
-    override suspend fun eliminarEquipaje(id: String): Result<Unit> = runCatching {
+    override suspend fun eliminarEquipaje(id: String) {
         val response = apiEquipaje.eliminarEquipaje(id)
         if(!response.isSuccessful){
             throw Exception("Error en la respuesta del servidor")
         }
     }
 
-    override suspend fun getDestinos(): Result<List<Destino>> = runCatching {
+    override suspend fun getDestinos(): List<Destino> {
         val response = apiDestino.getDestinos()
         if (response.success) {
-            response.data.items.map { it.toDomain() }
+            return response.data.items.map { it.toDomain() }
         } else {
             throw Exception("Error al cargar los destinos")
         }

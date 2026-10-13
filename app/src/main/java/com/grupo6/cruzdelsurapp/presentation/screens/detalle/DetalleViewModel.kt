@@ -1,18 +1,16 @@
 package com.grupo6.cruzdelsurapp.presentation.screens.detalle
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.grupo6.cruzdelsurapp.domain.usecase.EliminarEquipajeUseCase
 import com.grupo6.cruzdelsurapp.domain.usecase.GetEquipajeUseCase
 import com.grupo6.cruzdelsurapp.presentation.common.SnackbarType
-import com.grupo6.cruzdelsurapp.presentation.event.UiEvent
-import com.grupo6.cruzdelsurapp.presentation.event.UiEventBus
 import com.grupo6.cruzdelsurapp.presentation.session.SesionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,64 +19,56 @@ class DetalleViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getEquipajeUseCase: GetEquipajeUseCase,
     private val eliminarEquipajeUseCase: EliminarEquipajeUseCase,
-    private val eventBus: UiEventBus,
     sesionManager: SesionManager
 ): ViewModel() {
-    private val _uiState = MutableStateFlow(DetalleUiState())
-    val uiState = _uiState.asStateFlow()
+    var uiState by mutableStateOf(DetalleUiState())
+        private set
 
     private val equipajeId: String? = savedStateHandle["id"]
 
     init {
-        _uiState.update { it.copy(puedeEditar = sesionManager.usuario.value != null) }
+        uiState = uiState.copy(puedeEditar = sesionManager.usuario != null)
         cargarEquipaje()
     }
+
+    fun onMensajeMostrado() { uiState = uiState.copy(mensaje = null) }
 
     fun cargarEquipaje() {
         val id = equipajeId ?: return
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true) }
-            getEquipajeUseCase(id)
-                .onSuccess { equipaje ->
-                    _uiState.update { it.copy(equipaje = equipaje, isLoading = false) }
-                }
-                .onFailure { error ->
-                    _uiState.update { it.copy(isLoading = false) }
-                    eventBus.sendEvent(
-                        UiEvent.ShowSnackbar(
-                            error.message ?: "Error al obtener el detalle del equipaje",
-                            SnackbarType.ERROR
-                        )
-                    )
-                }
+            uiState = uiState.copy(isLoading = true)
+            try {
+                val equipaje = getEquipajeUseCase(id)
+                uiState = uiState.copy(equipaje = equipaje, isLoading = false)
+            } catch (e: Exception) {
+                uiState = uiState.copy(
+                    isLoading = false,
+                    mensaje = e.message ?: "Error al obtener el detalle del equipaje",
+                    tipoMensaje = SnackbarType.ERROR
+                )
+            }
         }
     }
 
-    fun showDeleteDialog() = _uiState.update { it.copy(showDeleteDialog = true) }
-    fun dismissDeleteDialog() = _uiState.update { it.copy(showDeleteDialog = false) }
+    fun showDeleteDialog() { uiState = uiState.copy(showDeleteDialog = true) }
+    fun dismissDeleteDialog() { uiState = uiState.copy(showDeleteDialog = false) }
 
     fun confirmDelete(onDeleted: () -> Unit) {
         val id = equipajeId ?: return
         viewModelScope.launch {
             dismissDeleteDialog()
-            _uiState.update { it.copy(isLoading = true) }
-            eliminarEquipajeUseCase(id)
-                .onSuccess {
-                    _uiState.update { it.copy(isLoading = false) }
-                    eventBus.sendEvent(
-                        UiEvent.ShowSnackbar("Registro de equipaje eliminado", SnackbarType.SUCCESS)
-                    )
-                    onDeleted()
-                }
-                .onFailure { error ->
-                    _uiState.update { it.copy(isLoading = false) }
-                    eventBus.sendEvent(
-                        UiEvent.ShowSnackbar(
-                            error.message ?: "Error al eliminar el registro",
-                            SnackbarType.ERROR
-                        )
-                    )
-                }
+            uiState = uiState.copy(isLoading = true)
+            try {
+                eliminarEquipajeUseCase(id)
+                uiState = uiState.copy(isLoading = false, mensaje = "Registro de equipaje eliminado", tipoMensaje = SnackbarType.SUCCESS)
+                onDeleted()
+            } catch (e: Exception) {
+                uiState = uiState.copy(
+                    isLoading = false,
+                    mensaje = e.message ?: "Error al eliminar el registro",
+                    tipoMensaje = SnackbarType.ERROR
+                )
+            }
         }
     }
 }

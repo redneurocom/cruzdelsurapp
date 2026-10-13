@@ -1,6 +1,7 @@
 package com.grupo6.cruzdelsurapp.presentation.screens.form
 
 import com.grupo6.cruzdelsurapp.domain.model.Destino
+import com.grupo6.cruzdelsurapp.presentation.common.SnackbarType
 
 data class FormUiState(
     val id: String? = null,
@@ -11,5 +12,7 @@ data class FormUiState(
     val observaciones: String = "",
     val destinos: List<Destino> = emptyList(),
     val isLoading: Boolean = false,
-    val isEditing: Boolean = false
+    val isEditing: Boolean = false,
+    val mensaje: String? = null,
+    val tipoMensaje: SnackbarType = SnackbarType.ERROR
 )

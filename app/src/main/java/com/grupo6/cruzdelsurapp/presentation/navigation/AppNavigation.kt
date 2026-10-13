@@ -12,6 +12,7 @@ import com.grupo6.cruzdelsurapp.presentation.screens.detalle.DetalleScreen
 import com.grupo6.cruzdelsurapp.presentation.screens.form.FormScreen
 import com.grupo6.cruzdelsurapp.presentation.screens.inicio.InicioScreen
 import com.grupo6.cruzdelsurapp.presentation.screens.login.LoginScreen
+import com.grupo6.cruzdelsurapp.presentation.screens.recuperar.RecuperarScreen
 
 @Composable
 fun AppNavigation(navController: NavHostController){
@@ -29,8 +30,15 @@ fun AppNavigation(navController: NavHostController){
                 },
                 onConsultarEquipaje = {
                     navController.navigate(BottomNavItem.Buscar.route)
+                },
+                onRecuperarPassword = {
+                    navController.navigate(RutasNav.RECUPERAR)
                 }
             )
+        }
+
+        composable(RutasNav.RECUPERAR){
+            RecuperarScreen(onVolver = { navController.popBackStack() })
         }
 
         composable(BottomNavItem.Inicio.route){

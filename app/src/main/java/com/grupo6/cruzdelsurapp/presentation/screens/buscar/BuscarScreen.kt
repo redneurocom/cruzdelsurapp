@@ -34,10 +34,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,6 +51,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.grupo6.cruzdelsurapp.R
+import com.grupo6.cruzdelsurapp.presentation.common.CustomSnackbarHost
 import com.grupo6.cruzdelsurapp.presentation.common.EquipajeItem
 import com.grupo6.cruzdelsurapp.presentation.common.LoadingOverlay
 import com.grupo6.cruzdelsurapp.presentation.common.cdsFieldColors
@@ -69,11 +70,19 @@ fun BuscarScreen(
     onDetalleEquipaje: (String) -> Unit,
     viewModel: BuscarViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState = viewModel.uiState
+    val snackbarHostState = remember { SnackbarHostState() }
 
     // Consulta los datos actuales cada vez que se abre la pantalla
     LaunchedEffect(Unit) {
         viewModel.cargarEquipajes()
+    }
+
+    LaunchedEffect(uiState.mensaje) {
+        uiState.mensaje?.let {
+            snackbarHostState.showSnackbar(it)
+            viewModel.onMensajeMostrado()
+        }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -173,6 +182,10 @@ fun BuscarScreen(
         }
 
         LoadingOverlay(isLoading = uiState.isLoading)
+
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
+            CustomSnackbarHost(hostState = snackbarHostState, currentType = uiState.tipoMensaje)
+        }
     }
 }
 

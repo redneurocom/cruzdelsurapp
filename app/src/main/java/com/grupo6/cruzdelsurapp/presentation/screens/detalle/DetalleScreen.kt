@@ -41,9 +41,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -62,6 +62,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.grupo6.cruzdelsurapp.presentation.common.CuadroInfo
+import com.grupo6.cruzdelsurapp.presentation.common.CustomSnackbarHost
 import com.grupo6.cruzdelsurapp.presentation.common.FRANQUICIA_KG
 import com.grupo6.cruzdelsurapp.presentation.common.InfoCard
 import com.grupo6.cruzdelsurapp.presentation.common.MetaBadge
@@ -83,12 +84,20 @@ fun DetalleScreen(
     onEquipajeDeleted: () -> Unit,
     viewModel: DetalleViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState = viewModel.uiState
     val context = LocalContext.current
     var copiado by remember { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
         viewModel.cargarEquipaje()
+    }
+
+    LaunchedEffect(uiState.mensaje) {
+        uiState.mensaje?.let {
+            snackbarHostState.showSnackbar(it)
+            viewModel.onMensajeMostrado()
+        }
     }
 
     uiState.equipaje?.let { equipaje ->
@@ -377,6 +386,10 @@ fun DetalleScreen(
                 }
             }
         )
+    }
+
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
+        CustomSnackbarHost(hostState = snackbarHostState, currentType = uiState.tipoMensaje)
     }
 }
 

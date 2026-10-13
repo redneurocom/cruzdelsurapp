@@ -6,6 +6,7 @@ object RutasNav {
     const val FORMULARIO = "form?id={id}"
     const val BUSCAR = "buscar"
     const val DETALLE = "detalle/{id}"
+    const val RECUPERAR = "recuperar"
 
     fun getTitulo(ruta: String?): String{
         return when{
@@ -14,6 +15,7 @@ object RutasNav {
             ruta?.startsWith("form") == true -> "Registrar Equipaje"
             ruta?.startsWith(BUSCAR) == true -> "Consulta de Equipaje"
             ruta?.startsWith("detalle") == true -> "Detalle de Equipaje"
+            ruta == RECUPERAR -> "Recuperar Contraseña"
             else -> "Mi Equipaje"
         }
     }

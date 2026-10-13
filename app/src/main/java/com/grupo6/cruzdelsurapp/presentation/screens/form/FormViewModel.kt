@@ -1,5 +1,8 @@
 package com.grupo6.cruzdelsurapp.presentation.screens.form
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,12 +12,7 @@ import com.grupo6.cruzdelsurapp.domain.usecase.GetDestinosUseCase
 import com.grupo6.cruzdelsurapp.domain.usecase.GetEquipajeUseCase
 import com.grupo6.cruzdelsurapp.domain.usecase.RegistrarEquipajeUseCase
 import com.grupo6.cruzdelsurapp.presentation.common.SnackbarType
-import com.grupo6.cruzdelsurapp.presentation.event.UiEvent
-import com.grupo6.cruzdelsurapp.presentation.event.UiEventBus
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,109 +22,98 @@ class FormViewModel @Inject constructor(
     private val getEquipajeUseCase: GetEquipajeUseCase,
     private val getDestinosUseCase: GetDestinosUseCase,
     private val registrarEquipajeUseCase: RegistrarEquipajeUseCase,
-    private val actualizarEquipajeUseCase: ActualizarEquipajeUseCase,
-    private val eventBus: UiEventBus
+    private val actualizarEquipajeUseCase: ActualizarEquipajeUseCase
 ): ViewModel(){
-    private val _uiState = MutableStateFlow(FormUiState())
-    val uiState = _uiState.asStateFlow()
+    var uiState by mutableStateOf(FormUiState())
+        private set
 
     init {
         cargarDestinos()
 
         val equipajeId: String? = savedStateHandle["id"]
         if(!equipajeId.isNullOrEmpty() && equipajeId != "{id}"){
-            _uiState.update { it.copy(id = equipajeId, isEditing = true) }
+            uiState = uiState.copy(id = equipajeId, isEditing = true)
             cargarEquipajeData(equipajeId)
         }
     }
 
+    fun onMensajeMostrado() { uiState = uiState.copy(mensaje = null) }
+
     private fun cargarDestinos(){
         viewModelScope.launch {
-            getDestinosUseCase()
-                .onSuccess { destinos ->
-                    _uiState.update { it.copy(destinos = destinos) }
-                }
-                .onFailure { error ->
-                    eventBus.sendEvent(
-                        UiEvent.ShowSnackbar(
-                            error.message ?: "Error al cargar los destinos", SnackbarType.ERROR
-                        )
-                    )
-                }
+            try {
+                val destinos = getDestinosUseCase()
+                uiState = uiState.copy(destinos = destinos)
+            } catch (e: Exception) {
+                uiState = uiState.copy(mensaje = e.message ?: "Error al cargar los destinos", tipoMensaje = SnackbarType.ERROR)
+            }
         }
     }
 
     private fun cargarEquipajeData(id: String){
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true) }
-            getEquipajeUseCase(id)
-                .onSuccess { equipaje ->
-                    _uiState.update {
-                        it.copy(
-                            pasajero = equipaje.pasajero,
-                            boleto = equipaje.boleto,
-                            pesoKg = equipaje.pesoKg.toString(),
-                            destino = equipaje.destino,
-                            observaciones = equipaje.observaciones,
-                            isLoading = false
-                        )
-                    }
-                }
-                .onFailure {
-                    _uiState.update { it.copy(isLoading = false) }
-                }
+            uiState = uiState.copy(isLoading = true)
+            try {
+                val equipaje = getEquipajeUseCase(id)
+                uiState = uiState.copy(
+                    pasajero = equipaje.pasajero,
+                    boleto = equipaje.boleto,
+                    pesoKg = equipaje.pesoKg.toString(),
+                    destino = equipaje.destino,
+                    observaciones = equipaje.observaciones,
+                    isLoading = false
+                )
+            } catch (e: Exception) {
+                uiState = uiState.copy(isLoading = false)
+            }
         }
     }
 
-    fun onPasajeroChange(value: String) = _uiState.update { it.copy(pasajero = value) }
-    fun onBoletoChange(value: String) = _uiState.update { it.copy(boleto = value) }
-    fun onPesoChange(value: String) = _uiState.update { it.copy(pesoKg = value) }
-    fun onDestinoChange(value: String) = _uiState.update { it.copy(destino = value) }
-    fun onObservacionesChange(value: String) = _uiState.update { it.copy(observaciones = value) }
+    fun onPasajeroChange(value: String) { uiState = uiState.copy(pasajero = value) }
+    fun onBoletoChange(value: String) { uiState = uiState.copy(boleto = value) }
+    fun onPesoChange(value: String) { uiState = uiState.copy(pesoKg = value) }
+    fun onDestinoChange(value: String) { uiState = uiState.copy(destino = value) }
+    fun onObservacionesChange(value: String) { uiState = uiState.copy(observaciones = value) }
 
     fun guardarEquipaje(onSucces: () -> Unit){
-        val state = _uiState.value
-
-        if(state.pasajero.isBlank() || state.boleto.isBlank() || state.pesoKg.isBlank() || state.destino.isBlank() || state.observaciones.isBlank()){
-            viewModelScope.launch {
-                eventBus.sendEvent(UiEvent.ShowSnackbar("Todos los campos son obligatorios",SnackbarType.WARNING))
-            }
+        if(uiState.pasajero.isBlank() || uiState.boleto.isBlank() || uiState.pesoKg.isBlank() || uiState.destino.isBlank() || uiState.observaciones.isBlank()){
+            uiState = uiState.copy(mensaje = "Todos los campos son obligatorios", tipoMensaje = SnackbarType.WARNING)
             return
         }
 
-        val pesoInt = state.pesoKg.toIntOrNull()
+        val pesoInt = uiState.pesoKg.toIntOrNull()
         if (pesoInt == null || pesoInt <= 0){
-            viewModelScope.launch {
-                eventBus.sendEvent(UiEvent.ShowSnackbar("El peso debe ser un valor válido en kg", SnackbarType.WARNING))
-            }
+            uiState = uiState.copy(mensaje = "El peso debe ser un valor válido en kg", tipoMensaje = SnackbarType.WARNING)
             return
         }
 
         val equipaje = Equipaje(
-            id = state.id.orEmpty(),
-            pasajero = state.pasajero,
-            boleto = state.boleto,
+            id = uiState.id.orEmpty(),
+            pasajero = uiState.pasajero,
+            boleto = uiState.boleto,
             pesoKg = pesoInt,
-            destino = state.destino,
-            observaciones = state.observaciones
+            destino = uiState.destino,
+            observaciones = uiState.observaciones
         )
 
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true) }
-            val result = if(state.isEditing){
-                actualizarEquipajeUseCase(state.id!!,equipaje)
-            }else{
-                registrarEquipajeUseCase(equipaje)
-            }
-
-            result.onSuccess {
-                _uiState.update { it.copy(isLoading = false) }
-                val mensaje = if (state.isEditing) "Registro de equipaje actualizado" else "Equipaje registrado con éxito"
-                eventBus.sendEvent(UiEvent.ShowSnackbar(mensaje, SnackbarType.SUCCESS))
+            val editando = uiState.isEditing
+            uiState = uiState.copy(isLoading = true)
+            try {
+                if(editando){
+                    actualizarEquipajeUseCase(uiState.id!!, equipaje)
+                }else{
+                    registrarEquipajeUseCase(equipaje)
+                }
+                val mensaje = if (editando) "Registro de equipaje actualizado" else "Equipaje registrado con éxito"
+                uiState = uiState.copy(isLoading = false, mensaje = mensaje, tipoMensaje = SnackbarType.SUCCESS)
                 onSucces()
-            }.onFailure { error ->
-                _uiState.update { it.copy(isLoading = false) }
-                eventBus.sendEvent(UiEvent.ShowSnackbar(error.message ?: "Error al registrar el equipaje", SnackbarType.ERROR))
+            } catch (e: Exception) {
+                uiState = uiState.copy(
+                    isLoading = false,
+                    mensaje = e.message ?: "Error al registrar el equipaje",
+                    tipoMensaje = SnackbarType.ERROR
+                )
             }
         }
     }

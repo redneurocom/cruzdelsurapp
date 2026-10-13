@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.grupo6.cruzdelsurapp.presentation.common.AppScaffold
-import com.grupo6.cruzdelsurapp.presentation.event.UiEventBus
 import com.grupo6.cruzdelsurapp.presentation.navigation.AppNavigation
 import com.grupo6.cruzdelsurapp.presentation.session.SesionManager
 import com.grupo6.cruzdelsurapp.ui.theme.CruzDelSurAppTheme
@@ -20,9 +19,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @Inject
-    lateinit var eventBus : UiEventBus
-
-    @Inject
     lateinit var sesionManager: SesionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +27,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             CruzDelSurAppTheme{
                 val navController = rememberNavController()
-                AppScaffold(navController, eventBus, sesionManager){paddingValues ->
+                AppScaffold(navController, sesionManager){paddingValues ->
                     Box(modifier = Modifier.fillMaxSize().padding(paddingValues)
                     ) {
                         AppNavigation(navController)

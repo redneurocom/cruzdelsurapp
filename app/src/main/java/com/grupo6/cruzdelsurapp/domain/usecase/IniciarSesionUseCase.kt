@@ -5,6 +5,6 @@ import com.grupo6.cruzdelsurapp.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class IniciarSesionUseCase @Inject constructor(private val repository: AuthRepository) {
-    suspend operator fun invoke(codigo: String, password: String): Result<Usuario> =
+    suspend operator fun invoke(codigo: String, password: String): Usuario =
         repository.iniciarSesion(codigo, password)
 }

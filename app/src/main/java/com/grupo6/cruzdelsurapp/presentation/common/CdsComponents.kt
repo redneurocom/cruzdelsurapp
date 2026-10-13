@@ -45,22 +45,11 @@ import com.grupo6.cruzdelsurapp.ui.theme.CdsNavy
 import com.grupo6.cruzdelsurapp.ui.theme.CdsText
 import com.grupo6.cruzdelsurapp.ui.theme.CdsTextMuted
 
-/*
- * Componentes visuales de Cruz del Sur (solo presentación).
- *
- * Campos del modelo Equipaje:
- *   pasajero      -> Pasajero titular
- *   boleto        -> N.º de boleto
- *   pesoKg        -> Peso en bodega (kg)
- *   destino       -> Destino final (catálogo del servicio /destinos)
- *   observaciones -> Observaciones de custodia
- *   id            -> Código de rastreo (formateado para mostrarse)
- */
+// Componentes visuales de Cruz del Sur (solo presentación)
 
-/** Franquicia de peso por bulto mostrada en pantalla. */
 const val FRANQUICIA_KG = 20
 
-/** Código de rastreo legible a partir del id del registro. */
+// Código de rastreo legible a partir del id del registro
 fun codigoRastreo(equipaje: Equipaje): String {
     val destino = equipaje.destino.filter { it.isLetter() }.take(3).uppercase().ifEmpty { "GEN" }
     val sufijo = equipaje.id.filter { it.isLetterOrDigit() }.takeLast(6).uppercase().ifEmpty { "000000" }

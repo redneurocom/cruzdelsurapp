@@ -10,11 +10,11 @@ import javax.inject.Inject
 class AuthRepositoryImpl @Inject constructor(
     private val apiAuth: AuthApiService
 ) : AuthRepository {
-    override suspend fun iniciarSesion(codigo: String, password: String): Result<Usuario> = runCatching {
+    override suspend fun iniciarSesion(codigo: String, password: String): Usuario {
         try {
             val response = apiAuth.login(LoginRequestDto(codigo = codigo, password = password))
             if (response.success && response.data != null && !response.data.token.isNullOrBlank()) {
-                response.data.toDomain()
+                return response.data.toDomain()
             } else {
                 throw Exception("No se pudo iniciar sesión")
             }

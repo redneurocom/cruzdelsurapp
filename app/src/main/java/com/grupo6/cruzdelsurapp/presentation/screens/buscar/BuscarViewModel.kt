@@ -1,56 +1,51 @@
 package com.grupo6.cruzdelsurapp.presentation.screens.buscar
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.grupo6.cruzdelsurapp.domain.model.Equipaje
 import com.grupo6.cruzdelsurapp.domain.usecase.GetEquipajesUseCase
 import com.grupo6.cruzdelsurapp.presentation.common.SnackbarType
 import com.grupo6.cruzdelsurapp.presentation.common.codigoRastreo
-import com.grupo6.cruzdelsurapp.presentation.event.UiEvent
-import com.grupo6.cruzdelsurapp.presentation.event.UiEventBus
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.text.Normalizer
 import javax.inject.Inject
 
 @HiltViewModel
 class BuscarViewModel @Inject constructor(
-    private val getEquipajesUseCase: GetEquipajesUseCase,
-    private val eventBus: UiEventBus
+    private val getEquipajesUseCase: GetEquipajesUseCase
 ): ViewModel() {
-    private val _uiState = MutableStateFlow(BuscarUiState())
-    val uiState = _uiState.asStateFlow()
+    var uiState by mutableStateOf(BuscarUiState())
+        private set
 
-    /** Se llama cada vez que se abre la pantalla, para consultar los datos actuales del servidor. */
+    fun onMensajeMostrado() { uiState = uiState.copy(mensaje = null) }
+
+    // Se llama cada vez que se abre la pantalla, para consultar los datos actuales del servidor
     fun cargarEquipajes(){
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true) }
-            getEquipajesUseCase()
-                .onSuccess { equipajes ->
-                    _uiState.update {
-                        it.copy(
-                            allEquipajes = equipajes,
-                            // Se conserva lo que el usuario ya escribió
-                            filteredEquipajes = filtrar(equipajes, it.query),
-                            isLoading = false
-                        )
-                    }
-                }
-                .onFailure { error ->
-                    _uiState.update { it.copy(isLoading = false) }
-                    eventBus.sendEvent(UiEvent.ShowSnackbar(error.message ?: "Error al consultar el equipaje",
-                        SnackbarType.ERROR))
-                }
+            uiState = uiState.copy(isLoading = true)
+            try {
+                val equipajes = getEquipajesUseCase()
+                uiState = uiState.copy(
+                    allEquipajes = equipajes,
+                    filteredEquipajes = filtrar(equipajes, uiState.query),
+                    isLoading = false
+                )
+            } catch (e: Exception) {
+                uiState = uiState.copy(
+                    isLoading = false,
+                    mensaje = e.message ?: "Error al consultar el equipaje",
+                    tipoMensaje = SnackbarType.ERROR
+                )
+            }
         }
     }
 
     fun onQueryChange(newQuery:String){
-        _uiState.update { state ->
-            state.copy(query = newQuery, filteredEquipajes = filtrar(state.allEquipajes, newQuery))
-        }
+        uiState = uiState.copy(query = newQuery, filteredEquipajes = filtrar(uiState.allEquipajes, newQuery))
     }
 
     /** Busca por pasajero, N.º de boleto o código de rastreo (CDS-...), sin importar mayúsculas, tildes ni espacios extra. */
