@@ -13,6 +13,5 @@ captures/
 Thumbs.db
 .kotlin/
 
-# Backend: clave secreta de los tokens (nunca se sube)
-aws-backend/.token_secret
+# Backend
 __pycache__/

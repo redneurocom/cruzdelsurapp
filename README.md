@@ -35,7 +35,7 @@ La aplicación Android y su backend en AWS ya cubren el flujo principal:
 
 ```
 app/            Aplicación Android (Kotlin, Jetpack Compose, MVVM, Hilt, Retrofit)
-aws-backend/    Lambdas en Python, datos iniciales y script de despliegue para AWS Academy Learner Lab
+aws-backend/    Lambdas en Python y datos iniciales del backend en AWS Academy Learner Lab
 docs/           Informe, prototipo, seguimiento y usuarios de prueba
 CAMBIOS.md      Detalle de pantallas, capas y recursos de la app
 ```
@@ -46,7 +46,7 @@ CAMBIOS.md      Detalle de pantallas, capas y recursos de la app
 2. Ejecutar la configuración `app` en un emulador o dispositivo con Android 11 (API 30) o superior.
 3. Ingresar con un usuario de prueba (ver [docs/usuarios-prueba.md](docs/usuarios-prueba.md)), por ejemplo `OP-4821` / `CruzDelSur2026`, o usar «Consultar mi equipaje» como pasajero.
 
-El backend (DynamoDB, Lambda y API Gateway) se describe y se despliega según `aws-backend/README.md`. Las URL de las APIs se configuran en `app/src/main/java/com/grupo6/cruzdelsurapp/di/NetworkModule.kt`.
+El backend (DynamoDB, Lambda y API Gateway) se creó manualmente en la consola de AWS y se describe en `aws-backend/README.md`. Las URL de las APIs se configuran en `app/src/main/java/com/grupo6/cruzdelsurapp/di/NetworkModule.kt`.
 
 ## Alcance funcional
 
