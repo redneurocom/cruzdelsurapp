@@ -1,0 +1,76 @@
+{
+  "cds-usuarios": [
+    {
+      "PutRequest": {
+        "Item": {
+          "codigo": {
+            "S": "OP-4821"
+          },
+          "nombre": {
+            "S": "Carlos Mendoza"
+          },
+          "rol": {
+            "S": "OPERARIO_BODEGA"
+          },
+          "terminal": {
+            "S": "Terminal Javier Prado - Lima"
+          },
+          "activo": {
+            "BOOL": true
+          },
+          "passwordHash": {
+            "S": "scrypt$bBIL5aHqDMvrc8JemOscRA==$nkn7w8hHv5VAv77Buu28JQtQIKe9i4/n4A/r9T2LtkU="
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "codigo": {
+            "S": "OP-1020"
+          },
+          "nombre": {
+            "S": "Julia Salazar"
+          },
+          "rol": {
+            "S": "OPERARIO_COUNTER"
+          },
+          "terminal": {
+            "S": "Terminal Javier Prado - Lima"
+          },
+          "activo": {
+            "BOOL": true
+          },
+          "passwordHash": {
+            "S": "scrypt$pG6cGt/Cbt0Td+VdH/MRaQ==$Z6zHFEzEFsBRn3slkc0WjZn8/phgbJE6Qm7ZIBrgMpc="
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "codigo": {
+            "S": "SP-0001"
+          },
+          "nombre": {
+            "S": "Supervisor Operativo"
+          },
+          "rol": {
+            "S": "SUPERVISOR"
+          },
+          "terminal": {
+            "S": "Terminal Javier Prado - Lima"
+          },
+          "activo": {
+            "BOOL": true
+          },
+          "passwordHash": {
+            "S": "scrypt$Yqx0oZZMbY5pJuufgDeNbw==$LPykFE6OcVALC9EppWtMVBXK7tvOUF17u8Qec1/t87o="
+          }
+        }
+      }
+    }
+  ]
+}

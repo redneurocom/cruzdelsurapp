@@ -6,7 +6,7 @@ La propuesta consiste en una aplicación móvil Android para registrar y consult
 
 ## Estado actual
 
-El proyecto se encuentra en la etapa de trabajo parcial. Hasta el momento se han completado las siguientes actividades:
+Actividades completadas en el trabajo parcial:
 
 - Delimitación del problema y del proceso de equipaje de bodega.
 - Definición del objetivo general, los objetivos específicos y el alcance.
@@ -16,7 +16,37 @@ El proyecto se encuentra en la etapa de trabajo parcial. Hasta el momento se han
 - Organización del seguimiento de actividades en un tablero Kanban.
 - Elaboración y revisión del informe del trabajo parcial.
 
-La implementación en Android, la integración con los servicios en la nube y las pruebas corresponden a las siguientes etapas del curso. Por esa razón, este repositorio contiene por ahora la documentación del proyecto y las evidencias del prototipo, sin presentar como terminadas funciones que todavía no han sido desarrolladas.
+### Implementación (etapa actual)
+
+La aplicación Android y su backend en AWS ya cubren el flujo principal:
+
+| Funcionalidad | Estado |
+| --- | --- |
+| Inicio de sesión del operario y cierre de sesión | Implementado (Lambda `funAuth`, token de sesión) |
+| Registro, edición y eliminación de equipaje | Implementado (Lambda `funEquipajes`; exige sesión) |
+| Manifiesto de bodega agrupado por destino | Implementado |
+| Consulta del pasajero por nombre, boleto o código `CDS-…` | Implementado (sin iniciar sesión) |
+| Catálogo de destinos | Implementado (Lambda `funDestinos`) |
+| Recuperación de contraseña | Pendiente (la app indica contactar al supervisor) |
+| Lectura de código QR y eventos de carga, escala y entrega | Pendiente |
+| Historial del equipaje y reporte de incidencias | Pendiente |
+
+## Estructura del repositorio
+
+```
+app/            Aplicación Android (Kotlin, Jetpack Compose, MVVM, Hilt, Retrofit)
+aws-backend/    Lambdas en Python, datos iniciales y script de despliegue para AWS Academy Learner Lab
+docs/           Informe, prototipo y seguimiento del proyecto
+CAMBIOS.md      Detalle de pantallas, capas y recursos de la app
+```
+
+## Cómo ejecutar
+
+1. Abrir la carpeta del repositorio en Android Studio y esperar la sincronización de Gradle.
+2. Ejecutar la configuración `app` en un emulador o dispositivo con Android 11 (API 30) o superior.
+3. Ingresar con un usuario de prueba (ver `aws-backend/README.md`) o usar «Consultar mi equipaje» como pasajero.
+
+El backend (DynamoDB, Lambda y API Gateway) se describe y se despliega según `aws-backend/README.md`. Las URL de las APIs se configuran en `app/src/main/java/com/grupo6/cruzdelsurapp/di/NetworkModule.kt`.
 
 ## Alcance funcional
 
@@ -72,4 +102,4 @@ Las capturas y la descripción de cada pantalla se encuentran en [docs/prototipo
 
 ## Repositorio
 
-El repositorio se utilizará para mantener la documentación, gestionar el control de versiones y añadir progresivamente el código fuente de la aplicación durante las siguientes etapas del proyecto.
+El repositorio contiene la documentación del proyecto, el código fuente de la aplicación Android y el backend en AWS. La rama `desarrollo` concentra el trabajo en curso y se integra en `main`.
