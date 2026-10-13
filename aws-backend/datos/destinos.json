@@ -1,0 +1,184 @@
+{
+  "cds-destinos": [
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "AQP"
+          },
+          "nombre": {
+            "S": "Arequipa"
+          },
+          "orden": {
+            "N": "1"
+          },
+          "activo": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "CUZ"
+          },
+          "nombre": {
+            "S": "Cusco"
+          },
+          "orden": {
+            "N": "2"
+          },
+          "activo": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "TRU"
+          },
+          "nombre": {
+            "S": "Trujillo"
+          },
+          "orden": {
+            "N": "3"
+          },
+          "activo": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "CIX"
+          },
+          "nombre": {
+            "S": "Chiclayo"
+          },
+          "orden": {
+            "N": "4"
+          },
+          "activo": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "PUN"
+          },
+          "nombre": {
+            "S": "Puno"
+          },
+          "orden": {
+            "N": "5"
+          },
+          "activo": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "PIU"
+          },
+          "nombre": {
+            "S": "Piura"
+          },
+          "orden": {
+            "N": "6"
+          },
+          "activo": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "TCQ"
+          },
+          "nombre": {
+            "S": "Tacna"
+          },
+          "orden": {
+            "N": "7"
+          },
+          "activo": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "ICA"
+          },
+          "nombre": {
+            "S": "Ica"
+          },
+          "orden": {
+            "N": "8"
+          },
+          "activo": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "NAZ"
+          },
+          "nombre": {
+            "S": "Nazca"
+          },
+          "orden": {
+            "N": "9"
+          },
+          "activo": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "LIM"
+          },
+          "nombre": {
+            "S": "Lima"
+          },
+          "orden": {
+            "N": "10"
+          },
+          "activo": {
+            "BOOL": true
+          }
+        }
+      }
+    }
+  ]
+}
