@@ -1,0 +1,148 @@
+{
+  "cds-equipajes": [
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "0b1f6c1e-3c1a-4f7e-9a51-1d2c00a04821"
+          },
+          "pasajero": {
+            "S": "Elena Morales Vargas"
+          },
+          "boleto": {
+            "S": "B001-0029412"
+          },
+          "pesoKg": {
+            "N": "18"
+          },
+          "destino": {
+            "S": "Arequipa"
+          },
+          "observaciones": {
+            "S": "Frágil, con funda protectora"
+          },
+          "codigoRastreo": {
+            "S": "CDS-ARE-A04821"
+          },
+          "estado": {
+            "S": "EN_BODEGA"
+          },
+          "fechaRegistro": {
+            "S": "2026-10-11T14:00:00.000Z"
+          },
+          "fechaActualizacion": {
+            "S": "2026-10-11T14:00:00.000Z"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "5d7e2a90-8b4c-4a63-b0f2-7c1e00a04822"
+          },
+          "pasajero": {
+            "S": "Roberto Quispe Huamán"
+          },
+          "boleto": {
+            "S": "B001-0029418"
+          },
+          "pesoKg": {
+            "N": "12"
+          },
+          "destino": {
+            "S": "Arequipa"
+          },
+          "observaciones": {
+            "S": "Caja embalada con cinta"
+          },
+          "codigoRastreo": {
+            "S": "CDS-ARE-A04822"
+          },
+          "estado": {
+            "S": "EN_BODEGA"
+          },
+          "fechaRegistro": {
+            "S": "2026-10-11T14:00:00.000Z"
+          },
+          "fechaActualizacion": {
+            "S": "2026-10-11T14:00:00.000Z"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "9a3c4e11-2f6d-4b8a-8c0e-3e5f00a04825"
+          },
+          "pasajero": {
+            "S": "Carmen Dávila Rojas"
+          },
+          "boleto": {
+            "S": "B001-0029433"
+          },
+          "pesoKg": {
+            "N": "8"
+          },
+          "destino": {
+            "S": "Cusco"
+          },
+          "observaciones": {
+            "S": "Mochila, candado TSA"
+          },
+          "codigoRastreo": {
+            "S": "CDS-CUS-A04825"
+          },
+          "estado": {
+            "S": "EN_BODEGA"
+          },
+          "fechaRegistro": {
+            "S": "2026-10-11T14:00:00.000Z"
+          },
+          "fechaActualizacion": {
+            "S": "2026-10-11T14:00:00.000Z"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "e4b8d2f7-6a1c-4d9e-a7b3-9f2a00a01209"
+          },
+          "pasajero": {
+            "S": "Jorge Flores Mendoza"
+          },
+          "boleto": {
+            "S": "B001-0029450"
+          },
+          "pesoKg": {
+            "N": "15"
+          },
+          "destino": {
+            "S": "Nazca"
+          },
+          "observaciones": {
+            "S": "Maleta rígida, descarga en escala"
+          },
+          "codigoRastreo": {
+            "S": "CDS-NAZ-A01209"
+          },
+          "estado": {
+            "S": "EN_BODEGA"
+          },
+          "fechaRegistro": {
+            "S": "2026-10-11T14:00:00.000Z"
+          },
+          "fechaActualizacion": {
+            "S": "2026-10-11T14:00:00.000Z"
+          }
+        }
+      }
+    }
+  ]
+}

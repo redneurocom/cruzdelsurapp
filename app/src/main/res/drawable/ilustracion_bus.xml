@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ilustración del banner: bus interprovincial y maleta en custodia -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="220dp"
+    android:height="120dp"
+    android:viewportWidth="220"
+    android:viewportHeight="120">
+    <!-- Carretera -->
+    <path android:fillColor="#33FFFFFF" android:pathData="M0,108h220v4h-220z" />
+    <path android:fillColor="#66FFFFFF" android:pathData="M10,114h22v2h-22zM50,114h22v2h-22zM90,114h22v2h-22zM130,114h22v2h-22zM170,114h22v2h-22z" />
+    <!-- Carrocería del bus -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M20,30 Q20,20 30,20 L150,20 Q166,20 170,36 L176,62 Q178,70 178,78 L178,96 Q178,102 172,102 L26,102 Q20,102 20,96 Z" />
+    <!-- Franja roja de marca -->
+    <path android:fillColor="#E2231A" android:pathData="M20,74 L178,74 L178,80 L20,80 Z" />
+    <path android:fillColor="#1C3A63" android:pathData="M20,82 L178,82 L178,85 L20,85 Z" />
+    <!-- Ventanas (doble piso) -->
+    <path android:fillColor="#1C3A63"
+        android:pathData="M28,28h26v16h-26zM58,28h26v16h-26zM88,28h26v16h-26zM118,28h26v16h-26z" />
+    <path android:fillColor="#1C3A63"
+        android:pathData="M28,50h26v16h-26zM58,50h26v16h-26zM88,50h26v16h-26zM118,50h26v16h-26z" />
+    <!-- Parabrisas -->
+    <path android:fillColor="#1C3A63" android:pathData="M150,28 L160,28 Q164,28 166,36 L171,66 L150,66 Z" />
+    <!-- Puerta de bodega -->
+    <path android:fillColor="#DCE5F2" android:pathData="M60,88h50v10h-50z" />
+    <!-- Ruedas -->
+    <path android:fillColor="#0E2340" android:pathData="M48,91 A11,11 0 1,1 47.99,91 Z" />
+    <path android:fillColor="#0E2340" android:pathData="M150,91 A11,11 0 1,1 149.99,91 Z" />
+    <path android:fillColor="#DCE5F2" android:pathData="M48,97 A5,5 0 1,1 47.99,97 Z" />
+    <path android:fillColor="#DCE5F2" android:pathData="M150,97 A5,5 0 1,1 149.99,97 Z" />
+    <!-- Maleta -->
+    <path android:fillColor="#FFFFFF" android:pathData="M193,62 L193,56 Q193,52 197,52 L205,52 Q209,52 209,56 L209,62 L205,62 L205,56 L197,56 L197,62 Z" />
+    <path android:fillColor="#E2231A" android:pathData="M188,62 L214,62 Q218,62 218,66 L218,102 Q218,106 214,106 L188,106 Q184,106 184,102 L184,66 Q184,62 188,62 Z" />
+    <path android:fillColor="#B3FFFFFF" android:pathData="M193,68h3v32h-3zM206,68h3v32h-3z" />
+</vector>

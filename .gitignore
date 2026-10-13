@@ -11,3 +11,8 @@ captures/
 # Archivos del sistema
 .DS_Store
 Thumbs.db
+.kotlin/
+
+# Backend: clave secreta de los tokens (nunca se sube)
+aws-backend/.token_secret
+__pycache__/
