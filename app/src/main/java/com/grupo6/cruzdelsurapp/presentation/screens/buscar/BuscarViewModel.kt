@@ -9,6 +9,7 @@ import com.grupo6.cruzdelsurapp.domain.model.Equipaje
 import com.grupo6.cruzdelsurapp.domain.usecase.GetEquipajesUseCase
 import com.grupo6.cruzdelsurapp.presentation.common.SnackbarType
 import com.grupo6.cruzdelsurapp.presentation.common.codigoRastreo
+import com.grupo6.cruzdelsurapp.presentation.session.SesionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.text.Normalizer
@@ -16,9 +17,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BuscarViewModel @Inject constructor(
-    private val getEquipajesUseCase: GetEquipajesUseCase
+    private val getEquipajesUseCase: GetEquipajesUseCase,
+    sesionManager: SesionManager
 ): ViewModel() {
-    var uiState by mutableStateOf(BuscarUiState())
+    // Reutiliza la misma pantalla para el pasajero (sin sesión) y el operario (con sesión);
+    // solo cambia el texto para que cada uno la lea en su propio contexto.
+    var uiState by mutableStateOf(BuscarUiState(esOperario = sesionManager.usuario != null))
         private set
 
     fun onMensajeMostrado() { uiState = uiState.copy(mensaje = null) }

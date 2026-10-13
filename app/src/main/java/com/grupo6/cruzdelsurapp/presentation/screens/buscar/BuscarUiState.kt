@@ -9,5 +9,6 @@ data class BuscarUiState(
     val filteredEquipajes: List<Equipaje> = emptyList(),
     val isLoading: Boolean = false,
     val mensaje: String? = null,
-    val tipoMensaje: SnackbarType = SnackbarType.ERROR
+    val tipoMensaje: SnackbarType = SnackbarType.ERROR,
+    val esOperario: Boolean = false
 )

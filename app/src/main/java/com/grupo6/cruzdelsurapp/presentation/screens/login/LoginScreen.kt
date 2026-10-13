@@ -28,7 +28,6 @@ import androidx.compose.material.icons.filled.Luggage
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material.icons.filled.TravelExplore
-import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -67,8 +66,6 @@ import com.grupo6.cruzdelsurapp.presentation.common.LogoCds
 import com.grupo6.cruzdelsurapp.presentation.common.cdsFieldColors
 import com.grupo6.cruzdelsurapp.ui.theme.CdsBorder
 import com.grupo6.cruzdelsurapp.ui.theme.CdsField
-import com.grupo6.cruzdelsurapp.ui.theme.CdsGreen
-import com.grupo6.cruzdelsurapp.ui.theme.CdsGreenContainer
 import com.grupo6.cruzdelsurapp.ui.theme.CdsNavy
 import com.grupo6.cruzdelsurapp.ui.theme.CdsNavyContainer
 import com.grupo6.cruzdelsurapp.ui.theme.CdsNavyLight
@@ -130,23 +127,6 @@ fun LoginScreen(
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 letterSpacing = 1.sp
-                            )
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Surface(shape = CircleShape, color = CdsField) {
-                        Row(
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 5.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Box(modifier = Modifier.size(7.dp).background(CdsGreen, CircleShape))
-                            Spacer(modifier = Modifier.width(6.dp))
-                            Text(
-                                "TRAZABILIDAD DE EQUIPAJE DE BODEGA",
-                                fontSize = 10.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = CdsTextMuted,
-                                letterSpacing = 0.5.sp
                             )
                         }
                     }
@@ -312,18 +292,8 @@ fun LoginScreen(
             }
 
             // Pie
-            Surface(shape = CircleShape, color = CdsGreenContainer) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(Icons.Default.VerifiedUser, contentDescription = null, tint = CdsGreen, modifier = Modifier.size(14.dp))
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text("Conexión segura (HTTPS)", fontSize = 12.sp, color = CdsGreen, fontWeight = FontWeight.SemiBold)
-                }
-            }
             Text(
-                "v1.0 • Cruz del Sur • Grupo 6",
+                "v1.0 • Cruz del Sur",
                 fontSize = 11.sp,
                 color = CdsTextMuted
             )

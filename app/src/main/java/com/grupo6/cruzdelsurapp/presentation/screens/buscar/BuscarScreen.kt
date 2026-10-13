@@ -91,7 +91,7 @@ fun BuscarScreen(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            item(key = "banner") { BannerCustodia() }
+            item(key = "banner") { BannerCustodia(esOperario = uiState.esOperario) }
 
             item(key = "titulo") {
                 Column(modifier = Modifier.padding(top = 4.dp)) {
@@ -99,7 +99,7 @@ fun BuscarScreen(
                         Icon(Icons.Default.TravelExplore, contentDescription = null, tint = CdsNavy, modifier = Modifier.size(26.dp))
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "¿Dónde está mi equipaje?",
+                            text = if (uiState.esOperario) "Buscar equipaje de un pasajero" else "¿Dónde está mi equipaje?",
                             fontSize = 22.sp,
                             fontWeight = FontWeight.Bold,
                             color = CdsText
@@ -107,7 +107,10 @@ fun BuscarScreen(
                     }
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
-                        text = "Consulta el estado de tus maletas en bodega ingresando el nombre del pasajero titular, el número de boleto o el código de rastreo de tu marbete.",
+                        text = if (uiState.esOperario)
+                            "Ubica una unidad en bodega por el nombre del pasajero, el número de boleto o el código de rastreo."
+                        else
+                            "Consulta el estado de tus maletas en bodega ingresando el nombre del pasajero titular, el número de boleto o el código de rastreo de tu marbete.",
                         fontSize = 14.sp,
                         color = CdsTextMuted,
                         lineHeight = 20.sp
@@ -158,7 +161,7 @@ fun BuscarScreen(
             }
 
             if (uiState.query.isBlank()) {
-                item(key = "ayuda") { AyudaCodigo() }
+                item(key = "ayuda") { AyudaCodigo(esOperario = uiState.esOperario) }
             } else {
                 item(key = "resultados") {
                     Text(
@@ -190,7 +193,7 @@ fun BuscarScreen(
 }
 
 @Composable
-private fun BannerCustodia() {
+private fun BannerCustodia(esOperario: Boolean) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -224,12 +227,15 @@ private fun BannerCustodia() {
                 ) {
                     Icon(Icons.Default.Shield, contentDescription = null, tint = Color.White, modifier = Modifier.size(13.dp))
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("CUSTODIA GARANTIZADA", color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        if (esOperario) "CUSTODIA EN BODEGA" else "CUSTODIA GARANTIZADA",
+                        color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Viaja tranquilo, nosotros cuidamos tus maletas",
+                text = if (esOperario) "Ubica rápido cualquier unidad a cargo del equipo" else "Viaja tranquilo, nosotros cuidamos tus maletas",
                 color = Color.White,
                 fontSize = 19.sp,
                 fontWeight = FontWeight.Bold,
@@ -240,7 +246,7 @@ private fun BannerCustodia() {
 }
 
 @Composable
-private fun AyudaCodigo() {
+private fun AyudaCodigo(esOperario: Boolean) {
     Card(
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = CdsField),
@@ -250,11 +256,17 @@ private fun AyudaCodigo() {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.AutoMirrored.Outlined.HelpOutline, contentDescription = null, tint = CdsNavy, modifier = Modifier.size(20.dp))
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("¿Dónde encuentro estos datos?", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = CdsText)
+                Text(
+                    if (esOperario) "¿Qué datos puedo usar para buscar?" else "¿Dónde encuentro estos datos?",
+                    fontSize = 16.sp, fontWeight = FontWeight.Bold, color = CdsText
+                )
             }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Al entregar tu equipaje en el counter recibirás un talón como este. Usa el nombre del pasajero o el número de boleto impreso.",
+                text = if (esOperario)
+                    "Al registrar el equipaje en el counter se genera un talón como este. Busca por el nombre del pasajero o el número de boleto impreso en él."
+                else
+                    "Al entregar tu equipaje en el counter recibirás un talón como este. Usa el nombre del pasajero o el número de boleto impreso.",
                 fontSize = 13.sp,
                 color = CdsTextMuted,
                 lineHeight = 19.sp

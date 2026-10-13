@@ -64,7 +64,11 @@ class FormViewModel @Inject constructor(
                     isLoading = false
                 )
             } catch (e: Exception) {
-                uiState = uiState.copy(isLoading = false)
+                uiState = uiState.copy(
+                    isLoading = false,
+                    mensaje = e.message ?: "Error al cargar el equipaje a editar",
+                    tipoMensaje = SnackbarType.ERROR
+                )
             }
         }
     }
